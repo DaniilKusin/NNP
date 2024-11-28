@@ -1,0 +1,31 @@
+{% extends 'main/layout.html' %}
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="placeholder">
+            <div style="background: #555; height: 400px; text-align: center; color: white; border-radius: 8px;">
+                Placeholder
+            </div>
+        </div>
+        <div class="rules">
+            <h2>Правила использования:</h2>
+            <p>1. Загружаемый файл должен быть формата JPEG.</p>
+            <p>2. Загружаемый файл должен весить не более 2 МБ.</p>
+            <h2>На анализируемом изображении:</h2>
+            <p>1. Одновременно должно находиться не более одного человека.</p>
+            <p>2. Человек должен быть изображен в полный рост.</p>
+            <p>3. Человек должен быть обращен лицом к камере.</p>
+        </div>
+        <div class="upload">
+            <button>
+                Загрузить изображение <i class="fas fa-upload"></i>
+            </button>
+            <button>
+                Обработать изображение <i class="fas fa-play"></i>
+            </button>
+        </div>
+    </section>
+</main>
+{% endblock %}
