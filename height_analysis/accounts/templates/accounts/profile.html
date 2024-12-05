@@ -1,0 +1,19 @@
+{% extends 'accounts/layout.html' %}
+
+{% block title %}Ваш профиль{% endblock %}
+
+{% block content %}
+<div class="container mt-5 profile-container">
+    <div class="profile-header">
+        <h2>Добро пожаловать, {{ user.username }}!</h2>
+        <div class="logout-btn-container">
+            <form action="{% url 'logout' %}" method="post" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger logout-btn">
+                    Выйти <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

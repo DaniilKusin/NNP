@@ -1,0 +1,61 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %} {% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'accounts/css/main.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <nav>
+     <a href="{% url 'home' %}" class="home-icon" title="Главная страница">
+        <i class="fa fa-home"></i>
+      </a>
+      <ul class="nav-links">
+        <li><a href="">История</a></li>
+        <li><a href="">О нас</a></li>
+      </ul>
+        <a href="" class="profile-icon" title="Личный профиль">
+          <i class="fa fa-user"></i>
+        </a>
+      <!-- Кнопка для мобильной версии -->
+      <div class="menu-icon" id="menu-icon">
+        <i class="fa fa-bars"></i>
+      </div>
+      <!-- Выпадающее меню -->
+      <ul class="dropdown-menu" id="dropdown-menu">
+        <li><a href="{% url 'home' %}">Главная страница</a></li>
+        <li><a href="">История</a></li>
+        <li><a href="">О нас</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+      {% block content %}
+      {% endblock %}
+  </main>
+
+  <footer>
+    <nav>
+      <ul>
+        <li><a href="">История</a></li>
+        <li><a href="">О нас</a></li>
+      </ul>
+    </nav>
+    <p>Поддержка: <a href="mailto:ilya74008@gmail.com">ilya74008@gmail.com</a></p>
+  </footer>
+
+  <script>
+    // Скрипт для открытия/закрытия выпадающего меню
+    document.getElementById('menu-icon').addEventListener('click', function() {
+      var menu = document.getElementById('dropdown-menu');
+      menu.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
