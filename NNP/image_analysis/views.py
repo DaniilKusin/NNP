@@ -4,8 +4,10 @@ from django.core.files.storage import default_storage
 import os
 from django.contrib.auth.decorators import login_required
 
+
 def home(request):
     return render(request, 'image_analysis/home.html')
+
 
 @login_required
 def upload_image(request):
