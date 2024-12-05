@@ -5,7 +5,7 @@ import os
 from django.contrib.auth.decorators import login_required
 
 def home(request):
-    return render(request, 'main/home.html')
+    return render(request, 'image_analysis/home.html')
 
 @login_required
 def upload_image(request):

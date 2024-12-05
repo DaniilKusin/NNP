@@ -21,8 +21,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts',
-    'main',
+    'user_profile',
+    'image_analysis',
+    'about',
+    'image_history',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'height_analysis.urls'
+ROOT_URLCONF = 'NNP.urls'
 
 TEMPLATES = [
     {
@@ -59,7 +61,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'height_analysis.wsgi.application'
+WSGI_APPLICATION = 'NNP.wsgi.application'
 
 
 # Database

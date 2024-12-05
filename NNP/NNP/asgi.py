@@ -1,5 +1,5 @@
 """
-ASGI config for height_analysis project.
+ASGI config for NNP project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'height_analysis.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NNP.settings')
 
 application = get_asgi_application()

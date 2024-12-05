@@ -19,12 +19,12 @@ def register(request):
     else:
         form = CustomRegistrationForm()
 
-    return render(request, 'accounts/register.html', {'form': form})
+    return render(request, 'user_profile/register.html', {'form': form})
 
 
 class CustomLoginView(LoginView):
     authentication_form = CustomLoginForm
-    template_name = 'accounts/login.html'
+    template_name = 'user_profile/login.html'
 
     def get_redirect_url(self):
         if self.request.user.is_authenticated:
@@ -35,6 +35,6 @@ class CustomLoginView(LoginView):
 @login_required
 def profile(request):
     user = request.user
-    return render(request, 'accounts/profile.html', {
+    return render(request, 'user_profile/profile.html', {
         'user': user,
     })

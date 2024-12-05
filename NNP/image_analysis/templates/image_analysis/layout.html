@@ -6,22 +6,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %} {% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'accounts/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'image_analysis/css/main.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <header>
     <nav>
      <a href="{% url 'home' %}" class="home-icon" title="Главная страница">
-        <i class="fa fa-home"></i>
+        <i class="fa fa-home"></i>  <!-- Иконка Home -->
       </a>
       <ul class="nav-links">
         <li><a href="">История</a></li>
         <li><a href="">О нас</a></li>
       </ul>
-        <a href="" class="profile-icon" title="Личный профиль">
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="profile-icon" title="Личный профиль">
           <i class="fa fa-user"></i>
         </a>
+      {% else %}
+        <a href="{% url 'login' %}" class="profile-icon" title="Войти">
+          <i class="fa fa-user"></i>
+        </a>
+      {% endif %}
       <!-- Кнопка для мобильной версии -->
       <div class="menu-icon" id="menu-icon">
         <i class="fa fa-bars"></i>
