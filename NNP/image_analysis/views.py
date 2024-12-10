@@ -35,7 +35,9 @@ def analyze(request):
 
 
 def get_human_data(image):
-    return []
+    image_with_data = ''
+    human_data = ''
+    return image_with_data, human_data
 
 
 def get_height(human_data):
