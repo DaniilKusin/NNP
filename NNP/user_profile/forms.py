@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django import forms
 
+
 class CustomRegistrationForm(forms.ModelForm):
     password1 = forms.CharField(
         label="Пароль",
@@ -35,6 +36,7 @@ class CustomRegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(

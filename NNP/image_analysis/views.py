@@ -3,9 +3,10 @@ from django.http import JsonResponse
 from django.core.files.storage import default_storage
 import os
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 
-def home(request):
+def get_analysis_page(request):
     return render(request, 'image_analysis/home.html')
 
 
@@ -24,3 +25,18 @@ def upload_image(request):
         return JsonResponse({'file_url': file_url})
 
     return JsonResponse({'error': 'Некорректный запрос.'}, status=400)
+
+
+def analyze(request):
+    img = ''
+    data = get_human_data(img)
+    height = get_height(data)
+    return HttpResponse(status=200)
+
+
+def get_human_data(image):
+    return []
+
+
+def get_height(human_data):
+    return 1.0
