@@ -29,15 +29,15 @@ def upload_image(request):
 
 def analyze(request):
     img = ''
-    data = get_human_data(img)
-    height = get_height(data)
+    data_image, human_data = get_human_data(img)
+    height = get_height(human_data)
     return HttpResponse(status=200)
 
 
 def get_human_data(image):
-    image_with_data = ''
+    image_data = ''
     human_data = ''
-    return image_with_data, human_data
+    return image_data, human_data
 
 
 def get_height(human_data):
