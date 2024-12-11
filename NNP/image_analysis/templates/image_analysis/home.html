@@ -1,17 +1,12 @@
 {% extends 'image_analysis/layout.html' %}
 {% block title %}Главная страница{% endblock %}
-{% load static %}
-
 {% block content %}
 <main class="main-container">
+    <!-- Блок изображения -->
     <div class="image-container">
-        <img id="preview" class="preview-image"/>
+        <img id="preview" class="preview-image" />
     </div>
-
-    <div class="image-container">
-        <img id="preview1" class="preview-image"/>
-    </div>
-
+    <!-- Блок с правилами и результатами -->
     <div class="info-container">
         <div class="info-box rules">
             <h2>Правила использования:</h2>
@@ -25,14 +20,13 @@
                 <li>Человек в полный рост, обращенный лицом к камере.</li>
             </ul>
         </div>
-
         <div class="info-box results">
             <h2>Результаты анализа:</h2>
             <p id="analysis-result">Результаты будут отображены после обработки изображения.</p>
         </div>
     </div>
 </main>
-
+<!-- Кнопки загрузки и обработки -->
 <div class="button-container">
     {% if user.is_authenticated %}
         <input type="file" id="imageInput" class="hidden" accept="image/jpeg" />
@@ -48,10 +42,47 @@
         </p>
     {% endif %}
 </div>
-
 <p id="errorMsg" class="error-message"></p>
-{% endblock %}
-
-{% block scripts %}
-<script src="{% static 'image_analysis/js/main.js' %}"></script>
+<script>
+    const uploadBtn = document.getElementById('uploadBtn');
+    const processBtn = document.getElementById('processBtn');
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+    const errorMsg = document.getElementById('errorMsg');
+    const analysisResult = document.getElementById('analysis-result');
+    uploadBtn.addEventListener('click', () => imageInput.click());
+    imageInput.addEventListener('change', () => {
+        const file = imageInput.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            fetch('{% url "upload_image" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.file_url) {
+                    preview.src = data.file_url;
+                    preview.classList.remove('hidden');
+                    processBtn.classList.remove('hidden');
+                    errorMsg.textContent = '';
+                    analysisResult.textContent = 'Нажмите "Обработать изображение" для начала анализа.';
+                } else {
+                    errorMsg.textContent = data.error || 'Ошибка загрузки файла.';
+                }
+            })
+            .catch(() => {
+                errorMsg.textContent = 'Произошла ошибка при загрузке.';
+            });
+        }
+    });
+    processBtn.addEventListener('click', () => {
+        analysisResult.textContent = 'Обработка изображения началась...';
+        // Логика обработки изображения
+    });
+</script>
 {% endblock %}

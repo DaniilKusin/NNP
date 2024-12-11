@@ -4,11 +4,10 @@ from django.core.files.storage import default_storage
 import os
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-
+from django.views.decorators.csrf import csrf_exempt
 
 def get_analysis_page(request):
     return render(request, 'image_analysis/home.html')
-
 
 @login_required
 def upload_image(request):
@@ -16,22 +15,18 @@ def upload_image(request):
         image = request.FILES['image']
         if image.content_type != 'image/jpeg':
             return JsonResponse({'error': 'Файл должен быть формата JPEG.'}, status=400)
-
         if image.size > 2 * 1024 * 1024:
             return JsonResponse({'error': 'Размер файла не должен превышать 2 МБ.'}, status=400)
-
         file_path = default_storage.save(f'uploads/{image.name}', image)
         file_url = default_storage.url(file_path)
         return JsonResponse({'file_url': file_url})
-
     return JsonResponse({'error': 'Некорректный запрос.'}, status=400)
 
 
+
+@login_required
 def analyze(request):
-    img = ''
-    data_image, human_data = get_human_data(img)
-    height = get_height(human_data)
-    return HttpResponse(status=200)
+    pass
 
 
 def get_human_data(image):
