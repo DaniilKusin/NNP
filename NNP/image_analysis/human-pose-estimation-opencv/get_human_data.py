@@ -33,7 +33,7 @@ thr = 0.2  # Set a confidence threshold for detecting keypoints
 
 
 # Define a function to detect poses in an input frame
-def poseDetector(frame):
+def get_human_data(frame):
     frameWidth = frame.shape[1]
     frameHeight = frame.shape[0]
 
@@ -87,7 +87,7 @@ def poseDetector(frame):
 # Load an input image
 input = cv.imread("images/500-100_Briana_L1.jpg")
 # Pass the image to the poseDetector function
-output = poseDetector(input)
+output = get_human_data(input)
 # Display the output image with the detected pose
 cv.imshow('res', output)
 cv.waitKey()
