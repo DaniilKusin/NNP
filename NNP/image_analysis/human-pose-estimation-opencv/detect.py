@@ -1,7 +1,8 @@
 # Import the necessary libraries
 import cv2 as cv
 import numpy as np
-#from google.colab.patches import cv2_imshow
+
+# from google.colab.patches import cv2_imshow
 
 # Define a dictionary mapping human body parts to their corresponding indices in the model's output
 BODY_PARTS = {
@@ -30,6 +31,7 @@ inHeight = height
 net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
 thr = 0.2  # Set a confidence threshold for detecting keypoints
 
+
 # Define a function to detect poses in an input frame
 def poseDetector(frame):
     frameWidth = frame.shape[1]
@@ -41,7 +43,7 @@ def poseDetector(frame):
     out = out[:, :19, :, :]  # Extract the first 19 elements, corresponding to the body part keypoints
 
     # Ensure the number of detected body parts matches the predefined BODY_PARTS
-    assert(len(BODY_PARTS) == out.shape[1])
+    assert (len(BODY_PARTS) == out.shape[1])
 
     points = []  # Initialize a list to hold the detected keypoints
     # Iterate over each body part to find the keypoints
@@ -65,8 +67,8 @@ def poseDetector(frame):
         partFrom = pair[0]
         partTo = pair[1]
         # Ensure the body parts are in the BODY_PARTS dictionary
-        assert(partFrom in BODY_PARTS)
-        assert(partTo in BODY_PARTS)
+        assert (partFrom in BODY_PARTS)
+        assert (partTo in BODY_PARTS)
 
         idFrom = BODY_PARTS[partFrom]
         idTo = BODY_PARTS[partTo]
@@ -81,8 +83,9 @@ def poseDetector(frame):
 
     return frame  # Return the frame with the pose drawn
 
+
 # Load an input image
-input = cv.imread("image.jpg")
+input = cv.imread("images/500-100_Briana_L1.jpg")
 # Pass the image to the poseDetector function
 output = poseDetector(input)
 # Display the output image with the detected pose
