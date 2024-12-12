@@ -6,12 +6,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %} {% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'image_analysis/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'image_history/css/main.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <header>
     <nav>
+     <a href="{% url 'home' %}" class="home-icon" title="Главная страница">
+        <i class="fa fa-home"></i>  <!-- Иконка Home -->
+      </a>
       <ul class="nav-links">
         <li><a href="{% url 'image_history' %}">История</a></li>
         <li><a href="">О нас</a></li>
@@ -32,7 +35,7 @@
       <!-- Выпадающее меню -->
       <ul class="dropdown-menu" id="dropdown-menu">
         <li><a href="{% url 'home' %}">Главная страница</a></li>
-        <li><a href="{% url 'image_history' %}">История</a></li>
+        <li><a href="">История</a></li>
         <li><a href="">О нас</a></li>
       </ul>
     </nav>

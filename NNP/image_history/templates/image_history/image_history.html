@@ -1,0 +1,45 @@
+{% extends 'image_history/layout.html' %}
+
+{% block title %}История изображений{% endblock %}
+
+{% block content %}
+  <h1>История изображений</h1>
+
+  {% if images %}
+    <div class="image-history">
+      {% for image in images %}
+        <div class="image-block">
+          <!-- Оригинальное изображение -->
+          <div class="image-original">
+            <p><strong>Оригинальное изображение:</strong></p>
+            <img src="{{ image.image.url }}" alt="Uploaded Image">
+          </div>
+
+          <!-- Обработанное изображение -->
+          {% if image.processed_image %}
+            <div class="image-processed">
+              <p><strong>Обработанное изображение:</strong></p>
+              <img src="{{ image.processed_image.url }}" alt="Processed Image">
+            </div>
+
+            <!-- Результаты анализа -->
+            <div class="image-results">
+              <p><strong>Результаты анализа:</strong></p>
+              <div class="analysis-card">
+                <div class="analysis-text">{{ image.analysis_result }}</div>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Кнопка удаления -->
+          <form action="{% url 'delete_image' image.id %}" method="post" class="delete-form">
+            {% csrf_token %}
+            <button type="submit">Удалить изображение</button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Вы еще не загрузили изображений.</p>
+  {% endif %}
+{% endblock %}

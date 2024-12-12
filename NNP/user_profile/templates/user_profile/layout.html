@@ -16,7 +16,7 @@
         <i class="fa fa-home"></i>
       </a>
       <ul class="nav-links">
-        <li><a href="">История</a></li>
+        <li><a href="{% url 'image_history' %}">История</a></li>
         <li><a href="">О нас</a></li>
       </ul>
         <a href="" class="profile-icon" title="Личный профиль">
@@ -29,7 +29,7 @@
       <!-- Выпадающее меню -->
       <ul class="dropdown-menu" id="dropdown-menu">
         <li><a href="{% url 'home' %}">Главная страница</a></li>
-        <li><a href="">История</a></li>
+        <li><a href="{% url 'image_history' %}">История</a></li>
         <li><a href="">О нас</a></li>
       </ul>
     </nav>
@@ -43,7 +43,7 @@
   <footer>
     <nav>
       <ul>
-        <li><a href="">История</a></li>
+        <li><a href="{% url 'image_history' %}">История</a></li>
         <li><a href="">О нас</a></li>
       </ul>
     </nav>
