@@ -110,7 +110,7 @@ def get_image_points(frame):
         points.append((int(x), int(y)) if conf > thr else None)
     # Сохраняем координаты для дальнейшего использования
     detected_points = {part: points[index] for part, index in BODY_PARTS.items() if points[index] is not None}
-    print(detected_points)
+
     # Теперь `detected_points` содержит только найденные точки
 
     # Draw lines and ellipses to represent the pose in the frame
@@ -132,7 +132,7 @@ def get_image_points(frame):
 
     t, _ = net.getPerfProfile()  # Optional: Retrieve the network's performance profile
 
-    return frame  # Return the frame with the pose drawn
+    return detected_points, frame  # Return the frame with the pose drawn
 
 
 # Load an input image
