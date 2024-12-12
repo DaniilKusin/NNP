@@ -1,6 +1,18 @@
 # Import the necessary libraries
 import cv2 as cv
 import numpy as np
+from pathlib import Path
+import inspect
+
+
+def get_current_directory():
+    # Получаем путь к текущему файлу
+    current_file = inspect.getfile(inspect.currentframe())
+
+    # Получаем директорию, используя pathlib
+    current_dir = Path(current_file).resolve().parent
+
+    return current_dir
 
 # from google.colab.patches import cv2_imshow
 
@@ -21,19 +33,58 @@ POSE_PAIRS = [
     ["REye", "REar"], ["Nose", "LEye"], ["LEye", "LEar"]
 ]
 
-# Specify the input dimensions for the neural network
-width = 368
-height = 368
-inWidth = width
-inHeight = height
 
-# Load the pre-trained OpenPose model from a file
-net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
-thr = 0.2  # Set a confidence threshold for detecting keypoints
+def get_points(frame):
+    cur_dir = get_current_directory()
+
+    # Specify the input dimensions for the neural network
+    width = 368
+    height = 368
+    inWidth = width
+    inHeight = height
+
+    # Load the pre-trained OpenPose model from a file
+    net = cv.dnn.readNetFromTensorflow(str(cur_dir / "graph_opt.pb"))
+    thr = 0.2  # Set a confidence threshold for detecting keypoints
+    frameWidth = frame.shape[1]
+    frameHeight = frame.shape[0]
+
+    # Prepare the input for the model by resizing and mean normalization
+    net.setInput(cv.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), swapRB=True, crop=False))
+    out = net.forward()
+    out = out[:, :19, :, :]  # Extract the first 19 elements, corresponding to the body part keypoints
+
+    # Ensure the number of detected body parts matches the predefined BODY_PARTS
+    assert (len(BODY_PARTS) == out.shape[1])
+
+    points = []  # Initialize a list to hold the detected keypoints
+    # Iterate over each body part to find the keypoints
+    for i in range(len(BODY_PARTS)):
+        # Extract the heatmap for the current body part
+        heatMap = out[0, i, :, :]
+        # Find the point with the maximum confidence
+        _, conf, _, point = cv.minMaxLoc(heatMap)
+        # Scale the point's coordinates back to the original frame size
+        x = (frameWidth * point[0]) / out.shape[3]
+        y = (frameHeight * point[1]) / out.shape[2]
+        # Add the point to the list if its confidence is above the threshold
+        points.append((int(x), int(y)) if conf > thr else None)
+    # Сохраняем координаты для дальнейшего использования
+    detected_points = {part: points[index] for part, index in BODY_PARTS.items() if points[index] is not None}
+    return detected_points
 
 
 # Define a function to detect poses in an input frame
-def get_human_data(frame):
+def get_image_points(frame):
+    # Specify the input dimensions for the neural network
+    width = 368
+    height = 368
+    inWidth = width
+    inHeight = height
+
+    # Load the pre-trained OpenPose model from a file
+    net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
+    thr = 0.2  # Set a confidence threshold for detecting keypoints
     frameWidth = frame.shape[1]
     frameHeight = frame.shape[0]
 
@@ -85,9 +136,9 @@ def get_human_data(frame):
 
 
 # Load an input image
-input = cv.imread("images/500-100_Briana_L1.jpg")
-# Pass the image to the poseDetector function
-output = get_human_data(input)
-# Display the output image with the detected pose
-cv.imshow('res', output)
-cv.waitKey()
+# input = cv.imread("images/500-100_Briana_L1.jpg")
+# # Pass the image to the poseDetector function
+# output = get_image_points(input)
+# # Display the output image with the detected pose
+# cv.imshow('res', output)
+# cv.waitKey()
