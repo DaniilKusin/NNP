@@ -6,6 +6,9 @@
     <div class="image-container">
         <img id="preview" class="preview-image" />
     </div>
+    <div class="image-container">
+        <img id="preview1" class="preview-image" />
+    </div>
     <!-- Блок с правилами и результатами -->
     <div class="info-container">
         <div class="info-box rules">
@@ -80,9 +83,27 @@
             });
         }
     });
+
     processBtn.addEventListener('click', () => {
         analysisResult.textContent = 'Обработка изображения началась...';
-        // Логика обработки изображения
+        fetch('{% url "analyze" %}', {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.processed_image_url) {
+                document.getElementById('preview1').src = data.processed_image_url;
+                analysisResult.textContent = 'Обработка завершена: ' + JSON.stringify(data.analysis_result);
+            } else {
+                errorMsg.textContent = data.error || 'Ошибка обработки.';
+            }
+        })
+        .catch(() => {
+            errorMsg.textContent = 'Произошла ошибка при обработке.';
+        });
     });
 </script>
 {% endblock %}
