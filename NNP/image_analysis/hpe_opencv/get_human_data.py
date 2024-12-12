@@ -76,6 +76,8 @@ def get_points(frame):
 
 # Define a function to detect poses in an input frame
 def get_image_points(frame):
+    cur_dir = get_current_directory()
+
     # Specify the input dimensions for the neural network
     width = 368
     height = 368
@@ -83,7 +85,7 @@ def get_image_points(frame):
     inHeight = height
 
     # Load the pre-trained OpenPose model from a file
-    net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
+    net = cv.dnn.readNetFromTensorflow(str(cur_dir / "graph_opt.pb"))
     thr = 0.2  # Set a confidence threshold for detecting keypoints
     frameWidth = frame.shape[1]
     frameHeight = frame.shape[0]
