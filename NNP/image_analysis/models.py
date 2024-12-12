@@ -6,6 +6,7 @@ class UploadedImage(models.Model):
     image = models.ImageField(upload_to='uploads/')
     processed_image = models.ImageField(upload_to='processed/', null=True, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    analysis_result = models.JSONField(null=True, blank=True)  # Добавляем поле для хранения результата обработки
 
     def __str__(self):
         return f"{self.user.username} - {self.image.name}"

@@ -47,13 +47,13 @@ def analyze(request):
         detected_points, processed_frame = get_image_points(image)
 
         # Сохраняем обработанное изображение
-        processed_image_name = f'processed_{os.path.basename(image_path)}'
-        processed_image_path = os.path.join(settings.MEDIA_ROOT, 'processed', processed_image_name)
-        os.makedirs(os.path.dirname(processed_image_path), exist_ok=True)
+        processed_image_path = os.path.join(settings.MEDIA_ROOT, 'processed',
+                                            f'processed_{os.path.basename(image_path)}')
         cv2.imwrite(processed_image_path, processed_frame)
 
         # Обновляем запись в базе данных
-        uploaded_image.processed_image = os.path.join('processed', processed_image_name)
+        uploaded_image.processed_image = os.path.join('processed', f'processed_{os.path.basename(image_path)}')
+        uploaded_image.analysis_result = detected_points  # Сохраняем результаты обработки
         uploaded_image.save()
 
         return JsonResponse({
