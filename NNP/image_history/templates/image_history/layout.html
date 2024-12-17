@@ -17,7 +17,7 @@
       </a>
       <ul class="nav-links">
         <li><a href="{% url 'image_history' %}">История</a></li>
-        <li><a href="">О нас</a></li>
+        <li><a href="{% url 'about' %}">О нас</a></li>
       </ul>
         {% if user.is_authenticated %}
         <a href="{% url 'profile' %}" class="profile-icon" title="Личный профиль">
@@ -35,8 +35,8 @@
       <!-- Выпадающее меню -->
       <ul class="dropdown-menu" id="dropdown-menu">
         <li><a href="{% url 'home' %}">Главная страница</a></li>
-        <li><a href="">История</a></li>
-        <li><a href="">О нас</a></li>
+        <li><a href="{% url 'image_history' %}">История</a></li>
+        <li><a href="{% url 'about' %}">О нас</a></li>
       </ul>
     </nav>
   </header>
@@ -49,8 +49,8 @@
   <footer>
     <nav>
       <ul>
-        <li><a href="">История</a></li>
-        <li><a href="">О нас</a></li>
+        <li><a href="{% url 'image_history' %}">История</a></li>
+        <li><a href="{% url 'about' %}">О нас</a></li>
       </ul>
     </nav>
     <p>Поддержка: <a href="mailto:ilya74008@gmail.com">ilya74008@gmail.com</a></p>
