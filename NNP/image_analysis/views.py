@@ -46,7 +46,7 @@ def analyze(request):
 
         # Обработка изображения с помощью нейросети
         detected_points, processed_frame = get_image_points(image)
-        height = predict_height(detected_points)
+        height = int(predict_height(detected_points))
         # Сохраняем обработанное изображение
         processed_image_path = os.path.join(settings.MEDIA_ROOT, 'processed',
                                             f'processed_{os.path.basename(image_path)}')
