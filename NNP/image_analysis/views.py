@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import UploadedImage
 from .hpe_opencv.get_human_data import get_image_points
+from .height_calulate.predict_height import predict_height
 import cv2
 import numpy as np
 from django.conf import settings
@@ -45,7 +46,7 @@ def analyze(request):
 
         # Обработка изображения с помощью нейросети
         detected_points, processed_frame = get_image_points(image)
-
+        height = predict_height(detected_points)
         # Сохраняем обработанное изображение
         processed_image_path = os.path.join(settings.MEDIA_ROOT, 'processed',
                                             f'processed_{os.path.basename(image_path)}')
@@ -53,12 +54,12 @@ def analyze(request):
 
         # Обновляем запись в базе данных
         uploaded_image.processed_image = os.path.join('processed', f'processed_{os.path.basename(image_path)}')
-        uploaded_image.analysis_result = detected_points  # Сохраняем результаты обработки
+        uploaded_image.analysis_result = height  # Сохраняем результаты обработки
         uploaded_image.save()
 
         return JsonResponse({
             'processed_image_url': uploaded_image.processed_image.url,
-            'analysis_result': detected_points
+            'analysis_result': height
         })
 
     except UploadedImage.DoesNotExist:
